@@ -5,7 +5,10 @@
 
 
 const {program} = require('commander');
-const package_json = require('../package.json')
+const package_json = require('../package.json');
+
+// Import command handlers
+const handle_init = require('./command/init');
 
 // Set CLI metadata
 program
@@ -22,10 +25,7 @@ program
     .description('Initialize project with CLAUDE.md template')
     .option('-t, --template <name>', 'Template name (e.g., api_testcase, handytools)')
     .option('-s, --source <url>', 'Custom template source URL')
-    .action((options) => {
-    // TODO: Implement init command logic (Step 6)
-    console.log('init command called with options:', options);
-});
+    .action(handle_init);
 
 /**
 * Command: update
