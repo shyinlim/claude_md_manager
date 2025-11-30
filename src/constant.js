@@ -27,7 +27,7 @@ const TEMPLATE = {
     ]
 };
 
- const COMMAND_TEMPLATE = Object.values(TEMPLATE).flat(); // [...TEMPLATE.SDET, ...TEMPLATE.TEAM1, ...TEMPLATE.TEAM2]
+const COMMAND_TEMPLATE = Object.values(TEMPLATE).flat(); // [...TEMPLATE.SDET, ...TEMPLATE.TEAM1, ...TEMPLATE.TEAM2]
 
 const ENV_VAR = {
     GITHUB_TOKEN: 'GITHUB_TOKEN',
