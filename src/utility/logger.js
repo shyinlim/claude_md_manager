@@ -6,24 +6,24 @@
 const chalk = require('chalk');
 
 function success(message) {
-    console.log(chalk.green(`%{message}`));
+    console.log(chalk.green(`${message}`));
 }
 
 function error(message) {
-    console.error(chalk.red(`%{message}`));
+    console.error(chalk.red(`${message}`));
 }
 
 function info(message){
-    console.log(chalk.blue(`%{message}`));
+    console.log(chalk.blue(`ℹ${message}`));
 }
 
 function warning(message){
-    console.log(chalk.yellow(`%{message}`));
+    console.log(chalk.yellow(`${message}`));
 }
 
-function warning(message){
+function debug(message){
     if (process.env.DEBUG){
-        console.log(chalk.gray(`%{message}`));
+        console.log(chalk.gray(`${message}`));
     }
 }
 
