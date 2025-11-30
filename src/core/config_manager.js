@@ -80,7 +80,7 @@ function update_config(update){
     const updated_config = {
         ...current_config,
         ...update,
-        updatedAt: new Date().toISOString()
+        update_at: new Date().toISOString()
     };
 
     write_config(updated_config);

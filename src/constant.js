@@ -23,6 +23,8 @@ const TEMPLATE = {
     ]
 };
 
+const COMMAND_TEMPLATE = [...TEMPLATE.SDET, ...TEMPLATE.RD1];
+
 const ENV_VAR = {
     GITHUB_TOKEN: 'GITHUB_TOKEN',
     GITLAB_TOKEN: 'GITLAB_TOKEN'
@@ -48,6 +50,7 @@ module.exports = {
     CONFIG_FILE_NAME,
     OUTPUT_FILE_PATH,
     TEMPLATE,
+    COMMAND_TEMPLATE,
     ENV_VAR,
     SUCCESS_MSG,
     ERROR_MSG
