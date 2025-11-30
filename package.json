@@ -1,0 +1,52 @@
+{
+  "version": "0.1.0",
+  "description": "Centralized CLAUDE.md management tool for teams",
+  "main": "src/index.js",
+  "bin": {
+    "claude-md": "./bin/cli.js"
+  },
+  "scripts": {
+    "dev": "node bin/cli.js",
+    "test": "echo \"No tests yet\"",
+    "lint": "echo \"No lint yet\""
+  },
+  "keywords": [
+    "claude",
+    "ai",
+    "documentation",
+    "team",
+    "template",
+    "management"
+  ],
+  "author": "shyinlim",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shyinlim/claude_md_manager.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shyinlim/claude_md_manager/issues"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.13.2",
+    "chalk": "^5.6.2",
+    "commander": "^14.0.2",
+    "ora": "^9.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.1"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "template/",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
