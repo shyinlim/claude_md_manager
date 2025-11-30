@@ -18,12 +18,16 @@ const TEMPLATE = {
         'sample_repo_2'
     ],
     RD1: [
-        'rd1_source',
+        '00_base',
+        'sample_repo_1'
+    ],
+    RD2: [
+        '00_base',
         'sample_repo_1'
     ]
 };
 
-const COMMAND_TEMPLATE = [...TEMPLATE.SDET, ...TEMPLATE.RD1];
+ const COMMAND_TEMPLATE = Object.values(TEMPLATE).flat(); // [...TEMPLATE.SDET, ...TEMPLATE.RD1, ...TEMPLATE.RD2]
 
 const ENV_VAR = {
     GITHUB_TOKEN: 'GITHUB_TOKEN',
