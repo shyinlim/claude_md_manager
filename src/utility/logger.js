@@ -1,6 +1,6 @@
 /**
-  * Simple logger utility with colored output
-  * Uses chalk for terminal colors and symbols for visual feedback
+* Simple logger utility with colored output
+* Uses chalk for terminal colors and symbols for visual feedback
 */
 
 const chalk = require('chalk');

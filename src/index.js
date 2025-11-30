@@ -1,6 +1,6 @@
 /**
-   * Main CLI program entry point
-   * Registers all commands using commander.js
+* Main CLI program entry point
+* Registers all commands using commander.js
 */
 
 
@@ -14,8 +14,8 @@ program
     .description('Centralized CLAUDE.md management tool for teams');
 
 /**
-  * Command: init
-  * Initialize a new project with template configuration
+* Command: init
+* Initialize a new project with template configuration
 */
 program
     .command('init')
@@ -28,8 +28,8 @@ program
 });
 
 /**
-  * Command: update
-  * Update CLAUDE.md with latest templates
+* Command: update
+* Update CLAUDE.md with latest templates
 */
 program
     .command('update')
@@ -41,8 +41,8 @@ program
 });
 
 /**
-   * Command: list
-   * List all available templates
+* Command: list
+* List all available templates
 */
 program
     .command('list')
@@ -55,8 +55,8 @@ program
 
 
 /**
-   * Command: config
-   * Show current configuration
+* Command: config
+* Show current configuration
 */
 program
     .command('config')

@@ -1,6 +1,6 @@
 /**
-  * Project-wide constant
-  * Centralized configuration values used across the application
+* Project-wide constant
+* Centralized configuration values used across the application
 */
 
 const GITHUB_TEMPLATE_SOURCE = 'https://github.com/shyinlim/claude_md_manager/template'
