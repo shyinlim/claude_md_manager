@@ -9,7 +9,3 @@ const {program} = require('../src/index.js')
 
 // Execute the CLI: init, update, uninstall
 program.parse(process.argv)
-
-
-
-
