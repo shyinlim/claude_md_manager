@@ -5,35 +5,54 @@
 
 const fs = require('fs');
 const path = require('path');
-const { TEMPLATE } = require('../constant');
+const {TEMPLATE} = require('../constant');
 
 /**
  * Get template type dynamically by template name
  * @param {string} template_name - Template name
- * @returns {string} Template type (e.g., 'SDET', 'RD1', 'RD2')
+ * @param {string} specified_team - Optional team type
+ * @returns {string} Template type (e.g., 'SDET', 'TEAM1', 'TEAM2')
  */
-function get_template_type(template_name) {
-    // Loop through all template types in TEMPLATE
+function get_template_type(specified_team, template_name) {
+
+    // If team is specified, use it directly
+    if (specified_team) {
+        if (TEMPLATE[specified_team] && TEMPLATE[specified_team].includes(template_name)) {
+            return specified_team;
+        }
+        throw new Error(`Template '${template_name}' not found in team '${specified_team}'`);
+    }
+
+    // Otherwise, search for the template
+    const found_team = []
     for (const type in TEMPLATE) {
         if (TEMPLATE[type].includes(template_name)) {
-            return type;
+            found_team.push(type);
         }
     }
 
-    // If not found, return the first type as default
-    const first_type = Object.keys(TEMPLATE)[0];
-    console.warn(`Template '${template_name}' not found in any type, using default: ${first_type}`);
-    return first_type;
+    if (found_team.length === 0) {
+        throw new Error(`Template '${template_name}' not found in any team`);
+    }
+    if (found_team.length > 1) {
+        throw new Error(
+            `Template '${template_name}' found in multiple teams: ${found_team.join(', ')}.
+` +
+            `Please specify --team option.`
+        );
+    }
+    return found_team[0];
 }
 
 /**
  * Read both specific and base templates
  * Returns in correct merge order: specific first, then base
  * @param {string} template_name - Template name
+ * @param {string} specified_team - Optional team type
  * @returns {Object} Object with specific and base content
  */
-function read_template(template_name) {
-    const template_type = get_template_type(template_name);
+function read_template(specified_team, template_name) {
+    const template_type = get_template_type(specified_team, template_name);
 
     // Read specific template
     const specific_path = path.join(process.cwd(), `template/${template_type}/${template_name}.md`);

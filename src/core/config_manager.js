@@ -1,18 +1,18 @@
 /**
-* Configuration file manager
-* Handles reading and writing .claudemd.config.json
-*/
+ * Configuration file manager
+ * Handles reading and writing .claudemd.config.json
+ */
 
 const fs = require('fs'); // document executor
 const path = require('path');
 const package_json = require('../../package.json');
-const { CONFIG_FILE_NAME } = require('../constant');
+const {CONFIG_FILE_NAME} = require('../constant');
 
 /**
-* Check if config file exists in current directory
-* @returns {boolean} True if config exists
-*/
-function config_exists(){
+ * Check if config file exists in current directory
+ * @returns {boolean} True if config exists
+ */
+function config_exists() {
     return fs.existsSync(CONFIG_FILE_NAME)
 }
 
@@ -20,12 +20,12 @@ function config_exists(){
  * Read config file
  * @returns {Object|null} Config object or null if not exists
  */
-function read_config(){
-    if (!config_exists()){
+function read_config() {
+    if (!config_exists()) {
         return null;
     }
 
-    try{
+    try {
         const content = fs.readFileSync(CONFIG_FILE_NAME, 'utf-8');
         return JSON.parse(content);
     } catch (error) {
@@ -37,11 +37,11 @@ function read_config(){
  * Write config file
  * @param {Object} config - Configuration object to write
  */
-function write_config(config){
-    try{
+function write_config(config) {
+    try {
         const content = JSON.stringify(config, null, 2);
         fs.writeFileSync(CONFIG_FILE_NAME, content, 'utf-8')
-    }catch (error){
+    } catch (error) {
         throw new Error(`Failed to write config file: ${error.message}`);
     }
 }
@@ -70,10 +70,10 @@ function create_config(template, source) {
  * @param {Object} updates - Fields to update
  * @returns {Object} Updated config object
  */
-function update_config(update){
+function update_config(update) {
 
     const current_config = read_config();
-    if (!current_config){
+    if (!current_config) {
         throw new Error('Config file not found. Run "init" first.');
     }
 
