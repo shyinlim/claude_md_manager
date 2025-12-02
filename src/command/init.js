@@ -28,9 +28,12 @@ async function handle_init(option) {
 
     // Check if config already exists
     if (config_manager.config_exists()) {
-        logger.warning('Config file already exists!');
-        logger.info('If you want to reinitialize, delete .claudemd.config.json first');
-        process.exit(1);
+        if (!option.force) {
+            logger.warning('Config file already exists!');
+            logger.info('If you want to reinitialize, delete .claudemd.config.json first');
+            process.exit(1);
+        }
+        logger.info('Force flag detected, overwriting existing config...');
     }
 
     // Get template name from options

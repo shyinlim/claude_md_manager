@@ -26,6 +26,7 @@ program
     .option('--team <type>', 'Team type (SDET, TEAM1, TEAM2, etc.)')
     .option('-t, --template <name>', 'Template name (e.g., api_testcase, handytools)')
     .option('-s, --source <url>', 'Custom template source URL')
+    .option('-f, --force', 'Force overwrite existing config')
     .action(handle_init);
 
 /**

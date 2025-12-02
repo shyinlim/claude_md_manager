@@ -12,9 +12,9 @@ const CONFIG_FILE_NAME = '.claude.md.config.json'
 const OUTPUT_FILE_PATH = '.claude/CLAUDE.md'
 
 const TEMPLATE = {
-    SDET: ['00_base', 'sample_repo_1', 'sample_repo_2'],
-    TEAM1: ['00_base', 'sample_repo_1'],
-    TEAM2: ['00_base', 'sample_repo_1']
+    sdet: ['00_base', 'sample_repo_1', 'sample_repo_2'],
+    team1: ['00_base', 'sample_repo_1'],
+    team2: ['00_base', 'sample_repo_1']
 };
 
 const COMMAND_TEMPLATE = Object.values(TEMPLATE).flat(); // [...TEMPLATE.SDET, ...TEMPLATE.TEAM1, ...TEMPLATE.TEAM2]
