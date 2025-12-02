@@ -7,7 +7,7 @@ const fs = require('fs'); // document executor
 const path = require('path');
 const package_json = require('../../package.json');
 const {CONFIG_FILE_NAME} = require('../constant');
-const get_utc_timestamp = require('../utility/common');
+const {get_utc_timestamp} = require('../utility/common');
 
 /**
  * Check if config file exists in current directory
