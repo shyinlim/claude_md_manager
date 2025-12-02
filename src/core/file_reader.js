@@ -32,7 +32,7 @@ function get_template_type(template_name) {
  * @param {string} template_name - Template name
  * @returns {Object} Object with specific and base content
  */
-function read_templates(template_name) {
+function read_template(template_name) {
     const template_type = get_template_type(template_name);
 
     // Read specific template
@@ -52,5 +52,5 @@ function read_templates(template_name) {
 
 module.exports = {
     get_template_type,
-    read_templates
+    read_template
 };

@@ -5,11 +5,14 @@
 
 const logger = require('../utility/logger')
 const config_manager = require('../core/config_manager');
+const { read_template } = require('../core/file_reader');
+const { merge_template } = require('../core/file_merger')
 const {
     TEMPLATE,
     COMMAND_TEMPLATE,
     GITHUB_TEMPLATE_SOURCE,
     GITLAB_TEMPLATE_SOURCE,
+    OUTPUT_FILE_PATH,
     SUCCESS_MSG,
     ERROR_MSG
 } = require('../constant');
@@ -50,23 +53,37 @@ async function handle_init(option){
 
     // Create config file
     try{
+        // Step 1: Create config file
         const config = config_manager.create_config(
             template_name || 'base',
             source
         );
+        logger.success(SUCCESS_MSG.CONFIG_CREATED)
 
-        logger.success(SUCCESS_MSG.INIT);
-        logger.info(`Template: ${config.template}`);
-        logger.info(`Source: ${config.source}`);
-        logger.info(`Config file created: .claudemd.config.json`);
+        // Step 2: Read template
+        logger.info(`Reading templates for: ${config.template}`);
+        const template = read_template(config.template)
+        logger.info(`Template type: ${template.type}`);
 
-        // TODO: Step 10 - Download and merge templates
-        logger.info('Next: Run "claude-md update" to generate CLAUDE.md');
+        // Step 3: Merge template
+        const merged_content = merge_template(template.specific, template.base);
+
+        // Step 4: Create .claude directory if it doesn't exist
+        const output_dir = path.dirname(OUTPUT_FILE_PATH);
+        if (!fs.existsSync(output_idr)){
+            fs.mkdirSync(output_idr, {recursive: true});
+            logger.info(`Created directory: ${output_dir}`);
+        }
+
+        // Step 5: Write CLAUDE.md
+        fs.writeFileSync(OUTPUT_FILE_PATH, merge_content, 'utf-8');
+        logger.success(SUCCESS_MSG.UPDATE);
+        logger.info(`File created at: ${OUTPUT_FILE_PATH}`);
     } catch (error) {
         logger.error(`Failed to initialize: ${error.message}`);
         process.exit(1);
     }
 }
 
- module.exports = handle_init;
+module.exports = handle_init;
 
