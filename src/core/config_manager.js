@@ -7,6 +7,7 @@ const fs = require('fs'); // document executor
 const path = require('path');
 const package_json = require('../../package.json');
 const {CONFIG_FILE_NAME} = require('../constant');
+const get_utc_timestamp = require('../utility/common');
 
 /**
  * Check if config file exists in current directory
@@ -57,8 +58,8 @@ function create_config(template, source) {
         version: package_json.version,
         template: template,
         source: source,
-        create_at: new Date().toISOString(),
-        update_at: new Date().toISOString()
+        create_at: get_utc_timestamp(),
+        update_at: get_utc_timestamp(),
     };
 
     write_config(config);
@@ -80,7 +81,7 @@ function update_config(update) {
     const updated_config = {
         ...current_config,
         ...update,
-        update_at: new Date().toISOString()
+        update_at: get_utc_timestamp(),
     };
 
     write_config(updated_config);
