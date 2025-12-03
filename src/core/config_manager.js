@@ -40,6 +40,11 @@ function read_config() {
  */
 function write_config(config) {
     try {
+        const config_dir = path.dirname(CONFIG_FILE_NAME);
+        if (!fs.existsSync(config_dir)){
+            fs.mkdirSync(config_dir, {recursive: true});
+        }
+
         const content = JSON.stringify(config, null, 2);
         fs.writeFileSync(CONFIG_FILE_NAME, content, 'utf-8')
     } catch (error) {

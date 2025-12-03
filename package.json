@@ -3,7 +3,7 @@
   "description": "Centralized CLAUDE.md management tool for teams",
   "main": "src/index.js",
   "bin": {
-    "claude-md": "./bin/cli.js"
+    "claudemd-manager": "./bin/cli.js"
   },
   "scripts": {
     "dev": "node bin/cli.js",

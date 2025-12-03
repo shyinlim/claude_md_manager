@@ -24,7 +24,7 @@ const {
 async function handle_update(option) {
     // Step 1: Check if config exists
     if (!config_manager.config_exists()) {
-        logger.error('Config file not found. Run "claude-md init" first.');
+        logger.error('Config file not found. Run "claudemd-manager init" first.');
         process.exit(1);
     }
 

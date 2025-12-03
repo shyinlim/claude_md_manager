@@ -7,7 +7,7 @@ const GITHUB_TEMPLATE_SOURCE = 'https://github.com/shyinlim/claude_md_manager/te
 
 const GITLAB_TEMPLATE_SOURCE = 'https://gitlab-company/shyinlim/claude_md_manager/template'
 
-const CONFIG_FILE_NAME = '.claude.md.config.json'
+const CONFIG_FILE_NAME = '.claude/.claude.md.config.json'
 
 const OUTPUT_FILE_PATH = '.claude/CLAUDE.md'
 
@@ -31,7 +31,7 @@ const SUCCESS_MSG = {
 };
 
 const ERROR_MSG = {
-    NO_CONFIG: 'Configuration file not found. Run "claude-md init" first.',
+    NO_CONFIG: 'Configuration file not found. Run "claudemd-manager init" first.',
     NO_TOKEN: 'GitLab token not found. Please set GITLAB_TOKEN environment variable.',
     DOWNLOAD_FAILED: 'Failed to download template files.',
     MERGE_FAILED: 'Failed to merge template files.',

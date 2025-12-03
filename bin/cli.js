@@ -1,6 +1,6 @@
 /**
     * CLI entry point
-    * This file is executed when user run: npx @your-org/claude-md
+    * This file is executed when user run: npx @your-org/claude-md-manager
 */
 
 

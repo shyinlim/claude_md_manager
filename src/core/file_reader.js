@@ -5,7 +5,9 @@
 
 const fs = require('fs');
 const path = require('path');
+const CLI_ROOT = path.resolve(__dirname, '../../');   // Get CLI project root directory (not current working directory)
 const {TEMPLATE} = require('../constant');
+
 
 /**
  * Get template type dynamically by template name
@@ -55,11 +57,11 @@ function read_template(specified_team, template_name) {
     const template_type = get_template_type(specified_team, template_name);
 
     // Read specific template
-    const specific_path = path.join(process.cwd(), `template/${template_type}/${template_name}.md`);
+    const specific_path = path.join(CLI_ROOT, `template/${template_type}/${template_name}.md`);
     const specific = fs.readFileSync(specific_path, 'utf-8');
 
     // Read base template
-    const base_path = path.join(process.cwd(), `template/${template_type}/00_base.md`);
+    const base_path = path.join(CLI_ROOT, `template/${template_type}/00_base.md`);
     const base = fs.readFileSync(base_path, 'utf-8');
 
     return {
