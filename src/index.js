@@ -35,7 +35,7 @@ program
     .description('Initialize project with CLAUDE.md template')
     .option('--team <type>', 'Team type (SDET, TEAM1, TEAM2, etc.)')
     .option('-t, --template <name>', 'Template name (e.g., api_testcase, handytools)')
-    .option('-s, --source <url>', 'Custom template source URL')
+    .option('--skip-base', 'Skip merging with base template (00_base.md)')
     .option('-f, --force', 'Force overwrite existing config')
     .action(handle_init);
 
@@ -46,6 +46,7 @@ program
 program
     .command('update')
     .description('Update CLAUDE.md from configured templates')
+    .option('--skip-base', 'Skip merging with base template (00_base.md)')
     .option('-f, --force', 'Force update even if no changes detected')
     .action(handle_update);
 

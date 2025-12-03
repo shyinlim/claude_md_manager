@@ -7,8 +7,8 @@ import fs from 'fs';
 import path from 'path';
 import * as logger from '../utility/logger.js';
 import * as config_manager from '../core/config_manager.js';
-import {read_template} from '../core/file_reader.js';
-import {merge_template} from '../core/file_merger.js';
+import {read_template} from '../core/template_reader.js';
+import {merge_template} from '../core/template_merger.js';
 import {
     OUTPUT_FILE_PATH,
     SUCCESS_MSG,
@@ -37,7 +37,7 @@ async function handle_update(option) {
 
         // Step 3: Read templates
         logger.info('Reading templates...');
-        const template = read_template(config.team, config.template);
+        const template = read_template(config.team, config.template, {skip_base: option.skipBase});
         logger.info(`Template type: ${template.type}`);
 
         // Step 4: Merge templates

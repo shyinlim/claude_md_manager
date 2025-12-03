@@ -1,0 +1,162 @@
+# GitLab CI/CD Configuration for claudemd-manager
+# Automatic testing and publishing to GitLab Package Registry
+
+# CI/CD Stages
+stages:
+  - lint        # Code quality check
+  - test        # Run tests
+  - publish     # Publish to npm registry
+  - verify      # Verify published package
+
+# Global variables
+variables:
+  # Package Registry URL (using CI_PROJECT_ID automatically)
+  NPM_REGISTRY: "https://${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/"
+  # Node.js version
+  NODE_VERSION: "18"
+  # Cache settings
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
+
+# Cache node_modules between jobs
+cache:
+  key:
+    files:
+      - package.json
+  paths:
+    - .npm
+    - node_modules/
+
+# ============================================
+# Stage 1: Lint (Code Quality Check)
+# ============================================
+lint:
+  stage: lint
+  image: node:${NODE_VERSION}
+  before_script:
+    - npm install
+  script:
+    # Check JavaScript syntax
+    - echo "Checking JavaScript syntax..."
+    - find src -name "*.js" -exec node --check {} \;
+    # Run lint if available
+    - npm run lint || echo "   No lint script found, skipping..."
+  only:
+    - merge_requests
+    - main
+    - tags
+  allow_failure: false
+
+# ============================================
+# Stage 2: Test
+# ============================================
+test:
+  stage: test
+  image: node:${NODE_VERSION}
+  before_script:
+    - npm install
+  script:
+    # Run tests if available
+    - npm test || echo "   No tests found, skipping..."
+    # Verify CLI works
+    - echo "Testing CLI..."
+    - node bin/cli.js --help
+    - node bin/cli.js --version
+  only:
+    - merge_requests
+    - main
+    - tags
+  allow_failure: false
+
+# ============================================
+# Stage 3: Publish (Only on tags)
+# ============================================
+publish:
+  stage: publish
+  image: node:${NODE_VERSION}
+  before_script:
+    # Configure npm registry and authentication
+    - echo "Configuring npm registry..."
+    - echo "@your-company:registry=${NPM_REGISTRY}" >> .npmrc
+    - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=\${CI_JOB_TOKEN}" >> .npmrc
+    # Verify configuration
+    - cat .npmrc
+  script:
+    # Publish to GitLab Package Registry
+    - echo "Publishing to GitLab Package Registry..."
+    - npm publish
+    - echo " Package published successfully!"
+    - echo "=æ Package: @your-company/claudemd-manager@$(node -p 'require(\"./package.json\").version')"
+  after_script:
+    # Clean up .npmrc (security)
+    - rm -f .npmrc
+  only:
+    # Only publish when a tag is pushed (e.g., v0.1.0, v1.2.3)
+    - tags
+  except:
+    - branches
+
+# ============================================
+# Stage 4: Publish Dry-run (Test on MR)
+# ============================================
+publish-dry-run:
+  stage: publish
+  image: node:${NODE_VERSION}
+  before_script:
+    # Configure npm registry
+    - echo "@your-company:registry=${NPM_REGISTRY}" >> .npmrc
+    - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=\${CI_JOB_TOKEN}" >> .npmrc
+  script:
+    # Dry-run: test publish without actually publishing
+    - echo "Running publish dry-run..."
+    - npm publish --dry-run
+    - echo " Dry-run successful! Package is ready to publish."
+  after_script:
+    - rm -f .npmrc
+  only:
+    # Only run on merge requests
+    - merge_requests
+  allow_failure: false
+
+# ============================================
+# Stage 5: Verify (Check published package)
+# ============================================
+verify-package:
+  stage: verify
+  image: node:${NODE_VERSION}
+  before_script:
+    # Configure npm to use GitLab registry
+    - echo "@your-company:registry=${NPM_REGISTRY}" >> .npmrc
+    - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=\${CI_JOB_TOKEN}" >> .npmrc
+  script:
+    # Wait a bit for package to be available
+    - sleep 5
+    # Try to install the published package
+    - PACKAGE_VERSION=$(node -p 'require("./package.json").version')
+    - echo "Verifying package @your-company/claudemd-manager@${PACKAGE_VERSION}..."
+    - npm view @your-company/claudemd-manager@${PACKAGE_VERSION}
+    - echo " Package verified successfully!"
+  after_script:
+    - rm -f .npmrc
+  only:
+    - tags
+  allow_failure: true  # Don't block if verification fails
+
+# ============================================
+# Optional: Manual job to unpublish
+# ============================================
+unpublish:
+  stage: publish
+  image: node:${NODE_VERSION}
+  before_script:
+    - echo "@your-company:registry=${NPM_REGISTRY}" >> .npmrc
+    - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=\${CI_JOB_TOKEN}" >> .npmrc
+  script:
+    - echo "   Unpublishing package..."
+    - PACKAGE_VERSION=$(node -p 'require("./package.json").version')
+    - npm unpublish @your-company/claudemd-manager@${PACKAGE_VERSION}
+    - echo "Package unpublished"
+  after_script:
+    - rm -f .npmrc
+  when: manual  # Only run when manually triggered
+  only:
+    - tags

@@ -7,8 +7,11 @@ import fs from 'fs';
 import path from 'path';
 import {fileURLToPath} from 'url';
 import {dirname} from 'path';
-import {CONFIG_FILE_NAME} from '../constant.js';
 import {get_utc_timestamp} from '../utility/common.js';
+import {
+    CONFIG_FILE_NAME,
+    COMMAND_GUIDE
+} from '../constant.js';
 
 // Read package.json
 const __filename = fileURLToPath(import.meta.url);
@@ -49,7 +52,7 @@ function read_config() {
 function write_config(config) {
     try {
         const config_dir = path.dirname(CONFIG_FILE_NAME);
-        if (!fs.existsSync(config_dir)){
+        if (!fs.existsSync(config_dir)) {
             fs.mkdirSync(config_dir, {recursive: true});
         }
 
@@ -75,6 +78,7 @@ function create_config(team, template, source) {
         source: source,
         create_at: get_utc_timestamp(),
         update_at: get_utc_timestamp(),
+        command: COMMAND_GUIDE,
     };
 
     write_config(config);

@@ -53,22 +53,32 @@ function get_template_type(specified_team, template_name) {
 }
 
 /**
- * Read both specific and base templates
- * Returns in correct merge order: specific first, then base
- * @param {string} template_name - Template name
+ * Read specific and base templates
  * @param {string} specified_team - Optional team type
+ * @param {string} template_name - Template name
+ * @param {Object} options - Options
+ * @param {boolean} options.skip_base - Skip reading base template
  * @returns {Object} Object with specific and base content
  */
-function read_template(specified_team, template_name) {
+function read_template(specified_team, template_name, options = {}) {
     const template_type = get_template_type(specified_team, template_name);
 
-    // Read specific template
+    // Read specific template (required)
     const specific_path = path.join(CLI_ROOT, `template/${template_type}/${template_name}.md`);
+    if (!fs.existsSync(specific_path)) {
+        throw new Error(`Template file not found: ${specific_path}`);
+    }
     const specific = fs.readFileSync(specific_path, 'utf-8');
 
-    // Read base template
-    const base_path = path.join(CLI_ROOT, `template/${template_type}/00_base.md`);
-    const base = fs.readFileSync(base_path, 'utf-8');
+    // Read base template (skip if --skip-base is specified)
+    let base = '';
+    if (!options.skip_base) {
+        const base_path = path.join(CLI_ROOT, `template/${template_type}/00_base.md`);
+        if (fs.existsSync(base_path)) {
+            base = fs.readFileSync(base_path, 'utf-8');
+        }
+    }
+
 
     return {
         specific: specific,
