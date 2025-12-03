@@ -3,35 +3,26 @@
  * Uses chalk for terminal colors and symbols for visual feedback
  */
 
-const chalk = require('chalk');
+import chalk from 'chalk';
 
-function success(message) {
+export function success(message) {
     console.log(chalk.green(`${message}`));
 }
 
-function error(message) {
+export function error(message) {
     console.error(chalk.red(`${message}`));
 }
 
-function info(message) {
+export function info(message) {
     console.log(chalk.blue(`ℹ${message}`));
 }
 
-function warning(message) {
+export function warning(message) {
     console.log(chalk.yellow(`${message}`));
 }
 
-function debug(message) {
+export function debug(message) {
     if (process.env.DEBUG) {
         console.log(chalk.gray(`${message}`));
     }
 }
-
-
-module.exports = {
-    success,
-    error,
-    info,
-    warning,
-    debug
-};

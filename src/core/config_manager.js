@@ -3,11 +3,19 @@
  * Handles reading and writing .claudemd.config.json
  */
 
-const fs = require('fs'); // document executor
-const path = require('path');
-const package_json = require('../../package.json');
-const {CONFIG_FILE_NAME} = require('../constant');
-const {get_utc_timestamp} = require('../utility/common');
+import fs from 'fs';
+import path from 'path';
+import {fileURLToPath} from 'url';
+import {dirname} from 'path';
+import {CONFIG_FILE_NAME} from '../constant.js';
+import {get_utc_timestamp} from '../utility/common.js';
+
+// Read package.json
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const package_json = JSON.parse(
+    fs.readFileSync(path.join(__dirname, '../../package.json'), 'utf-8')
+);
 
 /**
  * Check if config file exists in current directory
@@ -95,7 +103,7 @@ function update_config(update) {
     return updated_config;
 }
 
-module.exports = {
+export {
     config_exists,
     read_config,
     write_config,

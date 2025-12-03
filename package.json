@@ -1,5 +1,6 @@
 {
   "version": "0.1.0",
+  "type": "module",
   "description": "Centralized CLAUDE.md management tool for teams",
   "main": "src/index.js",
   "bin": {

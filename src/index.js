@@ -3,13 +3,22 @@
  * Registers all commands using commander.js
  */
 
-
-const {program} = require('commander');
-const package_json = require('../package.json');
+import {program} from 'commander';
+import fs from 'fs';
+import path from 'path';
+import {fileURLToPath} from 'url';
+import {dirname} from 'path';
 
 // Import command handlers
-const handle_init = require('./command/init');
-const hanle_update = require('./command/update');
+import handle_init from './command/init.js';
+import handle_update from './command/update.js';
+
+// Read package.json
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const package_json = JSON.parse(
+    fs.readFileSync(path.join(__dirname, '../package.json'), 'utf-8')
+);
 
 // Set CLI metadata
 program
@@ -38,7 +47,7 @@ program
     .command('update')
     .description('Update CLAUDE.md from configured templates')
     .option('-f, --force', 'Force update even if no changes detected')
-    .action(hanle_update);
+    .action(handle_update);
 
 /**
  * Command: list
@@ -68,4 +77,4 @@ program
     });
 
 
-module.exports = {program};
+export {program};

@@ -3,10 +3,16 @@
  * Reads markdown files from the local template directory
  */
 
-const fs = require('fs');
-const path = require('path');
-const CLI_ROOT = path.resolve(__dirname, '../../');   // Get CLI project root directory (not current working directory)
-const {TEMPLATE} = require('../constant');
+import fs from 'fs';
+import path from 'path';
+import {fileURLToPath} from 'url';
+import {dirname} from 'path';
+import {TEMPLATE} from '../constant.js';
+
+// Get CLI project root directory (not current working directory)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const CLI_ROOT = path.resolve(__dirname, '../../');
 
 
 /**
@@ -71,7 +77,7 @@ function read_template(specified_team, template_name) {
     };
 }
 
-module.exports = {
+export {
     get_template_type,
     read_template
 };

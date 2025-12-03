@@ -3,13 +3,13 @@
  * Initialize project with CLAUDE.md template configuration
  */
 
-const fs = require('fs');
-const path = require('path');
-const logger = require('../utility/logger')
-const config_manager = require('../core/config_manager');
-const {read_template} = require('../core/file_reader');
-const {merge_template} = require('../core/file_merger')
-const {
+import fs from 'fs';
+import path from 'path';
+import * as logger from '../utility/logger.js';
+import * as config_manager from '../core/config_manager.js';
+import {read_template} from '../core/file_reader.js';
+import {merge_template} from '../core/file_merger.js';
+import {
     TEMPLATE,
     COMMAND_TEMPLATE,
     GITHUB_TEMPLATE_SOURCE,
@@ -17,7 +17,7 @@ const {
     OUTPUT_FILE_PATH,
     SUCCESS_MSG,
     ERROR_MSG
-} = require('../constant');
+} from '../constant.js';
 
 
 /**
@@ -92,5 +92,5 @@ async function handle_init(option) {
     }
 }
 
-module.exports = handle_init;
+export default handle_init;
 

@@ -1,11 +1,12 @@
-/**
-    * CLI entry point
-    * This file is executed when user run: npx @your-org/claude-md-manager
-*/
+#!/usr/bin/env node
 
+/**
+ * CLI entry point
+ * This file is executed when user run: claudemd-manager
+ */
 
 // Import the main program
-const {program} = require('../src/index.js')
+import {program} from '../src/index.js';
 
 // Execute the CLI: init, update, uninstall
-program.parse(process.argv)
+program.parse(process.argv);
