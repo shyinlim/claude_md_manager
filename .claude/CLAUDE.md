@@ -2,6 +2,7 @@
 
 ##  Pytest command line
 1. pytest -v -s
+2. changed 20251203 0820
 
 ## Development Workflow
 ```commandline

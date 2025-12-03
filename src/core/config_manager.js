@@ -49,13 +49,15 @@ function write_config(config) {
 
 /**
  * Create initial config with template info
+ * @param {string} team - Team name (optional, auto-detected if not provided)
  * @param {string} template - Template name
  * @param {string} source - Template source URL
  * @returns {Object} Created config object
  */
-function create_config(template, source) {
+function create_config(team, template, source) {
     const config = {
         version: package_json.version,
+        team: team || null,
         template: template,
         source: source,
         create_at: get_utc_timestamp(),

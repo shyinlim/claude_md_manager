@@ -59,8 +59,9 @@ async function handle_init(option) {
 
     // Create config file
     try {
-        // Step 1: Create config file
+        // Step 1: Create config file '.claude.md.config.json'
         const config = config_manager.create_config(
+            team,
             template_name || 'base',
             source
         );

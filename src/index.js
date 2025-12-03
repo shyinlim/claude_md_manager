@@ -9,6 +9,7 @@ const package_json = require('../package.json');
 
 // Import command handlers
 const handle_init = require('./command/init');
+const hanle_update = require('./command/update');
 
 // Set CLI metadata
 program
@@ -37,10 +38,7 @@ program
     .command('update')
     .description('Update CLAUDE.md from configured templates')
     .option('-f, --force', 'Force update even if no changes detected')
-    .action((options) => {
-        // TODO: Implement update command logic (Step 12)
-        console.log('update command called with options:', options);
-    });
+    .action(hanle_update);
 
 /**
  * Command: list
