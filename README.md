@@ -6,3 +6,6 @@ Drafting ... ...
 npm run dev -- init --team sdet --template sample_repo_1
 ```
 
+```angular2html
+npm run dev -- update
+```
