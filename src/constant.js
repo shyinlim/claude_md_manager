@@ -18,7 +18,7 @@ export const ERROR_MSG = {
     NO_TOKEN: 'GitLab token not found. Please set GITLAB_TOKEN environment variable.',
     DOWNLOAD_FAILED: 'Failed to download template files.',
     MERGE_FAILED: 'Failed to merge template files.',
-    WRITE_FAILED: 'Failed to write CLAUDE.md file.'
+    WRITE_FAILED: 'Failed to write CLAUDE.md file.',
 };
 
 export const COMMAND_GUIDE = {

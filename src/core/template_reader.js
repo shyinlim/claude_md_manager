@@ -133,7 +133,6 @@ function read_template(specified_team, template_name, options = {}) {
 
 export {
       scan_template,
-      get_all_template_name,
       get_template_type,
       read_template
   };

@@ -5,7 +5,7 @@
 
 
 import * as logger from '../utility/logger.js';
-import {scan_template} from '../util/scan_template.js';
+import {scan_template} from '../core/template_reader.js';
 
 
 async function handle_list(option) {
