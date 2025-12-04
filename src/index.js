@@ -32,12 +32,13 @@ program
  */
 program
     .command('init')
-    .description('Initialize project with CLAUDE.md template')
-    .option('--team <type>', 'Team type (SDET, TEAM1, TEAM2, etc.)')
-    .option('-t, --template <name>', 'Template name (e.g., api_testcase, handytools)')
-    .option('--skip-base', 'Skip merging with base template (00_base.md)')
-    .option('-f, --force', 'Force overwrite existing config')
-    .action(handle_init);
+    .description('Initialize project with CLAUDE.md or SKILL.md template')
+    .option('--type <type>', 'Template type (instruction or skill)')
+    .option('--category <category>', 'Category name (e.g., sdet, professional1)')
+    .option('--profile <profile>', 'Profile name (e.g., sample_repo_1), optional for skill type')
+    .option('--skip-base', 'Skip merging with base template (only for instruction type)')
+    .option('--force', 'Force overwrite existing config')
+    .action(handle_init)
 
 /**
  * Command: update

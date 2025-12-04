@@ -11,7 +11,8 @@ npm run dev -- update
 ```angular2html
 其他 repo 測試
 pnpm link --global
-claudemd-manager init --team sdet --template sample_repo_1
+claudemd-manager init --type instruction --category sdet --profile sample_repo_1 --force
+claudemd-manager init --type skill --category professional1
 claudemd-manager update
 
 pnpm unlink --global

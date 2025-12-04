@@ -10,41 +10,40 @@ import {scan_template} from '../core/template_reader.js';
 
 async function handle_list(option) {
     try {
-        // Use scan_templates from template_reader
+        // Use scan_template from template_reader
         const all_template = scan_template();
 
-        const team = Object.keys(all_template);
+        const type_list = Object.keys(all_template);
 
-        if (team.length === 0) {
+        if (type_list.length === 0) {
             logger.warn('No template found.');
             return;
         }
 
-        console.log('\nAvailable Templates:\n');
+        console.log('\nAvailable Template:\n');
 
-        // List templates for each team
-        for (const t of team) {
-            const template = all_template[t];
+        // List templates for each type
+        for (const type of type_list) {
+            console.log(`\n${type.toUpperCase()}:`);
 
-            // Filter out base template unless --all is specified
-            const filtered_template = option.all
-                ? template
-                : template.filter(name => name !== '00_base');
+            const category_map = all_template[type];
+            const category_list = Object.keys(category_map);
 
-            if (filtered_template.length > 0) {
-                console.log(`${t.toUpperCase()}:`);
-                filtered_template.forEach(tmpl => {
-                    const indicator = tmpl === '00_base' ? '⚙' : '✓';
-                    console.log(`  ${indicator} ${tmpl}`);
-                });
-                console.log('');
+            for (const category of category_list) {
+
+                const profile_list = category_map[category]
+
+                // Show all profile
+                if (profile_list.length > 0) {
+                    console.log(`  ${category}:`);
+                    profile_list.forEach(profile => {
+                        console.log(`    ✓ ${profile}`);
+                    });
+                }
             }
         }
-
-        logger.info(`Total teams: ${team.length}`);
-
     } catch (error) {
-        logger.error(`Failed to list templates: ${error.message}`);
+        logger.error(`Failed to list template: ${error.message}`);
         process.exit(1);
     }
 }

@@ -7,6 +7,7 @@ import fs from 'fs';
 import path from 'path';
 import {fileURLToPath} from 'url';
 import {dirname} from 'path';
+import {TEMPLATE_TYPE} from '../constant.js';
 
 // Get CLI project root directory (not current working directory)
 const __filename = fileURLToPath(import.meta.url);
@@ -15,7 +16,7 @@ const CLI_ROOT = path.resolve(__dirname, '../../');
 
 /**
  * Scan and build template structure dynamically
- * @returns {Object} { sdet: ['00_base', 'sample_repo_1', ...], team1: [...], ... }
+ * @returns {Object} { instruction: { sdet: [...] }, skill: { professional1: [...] } }
  */
 function scan_template() {
     const template_dir = path.join(CLI_ROOT, 'template');
@@ -27,112 +28,103 @@ function scan_template() {
 
     const result = {};
 
-    // Scan all team directories
-    const team = fs.readdirSync(template_dir)
+    // Level1: Scan type (instruction, skill)
+    const type_list = fs.readdirSync(template_dir)
         .filter(item => {
             const item_path = path.join(template_dir, item);
             return fs.statSync(item_path).isDirectory();
-        })
-        .sort();
+        }).sort()
 
-    // Scan templates for each team
-    for (const t of team) {
-        const team_dir = path.join(template_dir, t);
-        const template = fs.readdirSync(team_dir)
-            .filter(file => file.endsWith('.md'))
-            .map(file => file.replace('.md', ''))
-            .sort();
-        result[t] = template;
+    // Level2: Scan category (module team, professional)
+    for (const type of type_list) {
+        const type_dir = path.join(template_dir, type);
+        const category_list = fs.readdirSync(type_dir)
+            .filter(item => {
+                const item_path = path.join(type_dir, item);
+                return fs.statSync(item_path).isDirectory();
+            }).sort()
+        result[type] = {}
+
+        // Level3: All md file
+        for (const category of category_list) {
+            const category_dir = path.join(type_dir, category);
+            const template_list = fs.readdirSync(category_dir)
+                .filter(file => file.endsWith('.md'))
+                .map(file => file.replace('.md', ''))
+                .sort();
+            result[type][category] = template_list;
+        }
     }
 
     return result;
 }
 
 /**
- * Get all template_name
- * @return [...TEMPLATE.SDET, ...TEMPLATE.TEAM1, ...TEMPLATE.TEAM2]
+ * Get all unique profile name from all type and category
+ * Extract from structure: { instruction: { sdet: [...] }, skill: { professional1: [...] } }
+ * @returns {Array<string>} Array of unique profile name (e.g., ['00_base', 'sample_repo_1', 'SKILL'])
  */
 export function get_all_template_name() {
     const scanned = scan_template();
-    return [...new Set(Object.values(scanned).flat())];
-}
-
-
-/**
- * Get template type dynamically by template name
- * @param {string} template_name - Template name
- * @param {string} specified_team - Optional team type
- * @returns {string} Template type (e.g., 'SDET', 'TEAM1', 'TEAM2')
- */
-function get_template_type(specified_team, template_name) {
-    const TEMPLATE = scan_template()
-
-    // If team is specified, use it directly
-    if (specified_team) {
-        if (TEMPLATE[specified_team] && TEMPLATE[specified_team].includes(template_name)) {
-            return specified_team;
-        }
-        throw new Error(`Template '${template_name}' not found in team '${specified_team}'`);
-    }
-
-    // Otherwise, search for the template
-    const found_team = [];
-    for (const type in TEMPLATE) {
-        if (TEMPLATE[type].includes(template_name)) {
-            found_team.push(type);
+    const all_template = [];
+    for (const type in scanned) {
+        for (const category in scanned[type]) {
+            all_template.push(...scanned[type][category]);
         }
     }
-
-    if (found_team.length === 0) {
-        throw new Error(`Template '${template_name}' not found in any team`);
-    }
-    if (found_team.length > 1) {
-        throw new Error(
-            `Template '${template_name}' found in multiple teams: ${found_team.join(', ')}.
-` +
-            `Please specify --team option.`
-        );
-    }
-    return found_team[0];
+    return [...new Set(all_template)];
 }
 
 /**
- * Read specific and base templates
- * @param {string} specified_team - Optional team type
- * @param {string} template_name - Template name
- * @param {Object} options - Options
- * @param {boolean} options.skip_base - Skip reading base template
+ * Read template file(s) based on type, category, and profile
+ * @param {string} type - Template type (instruction/skill)
+ * @param {string} category - Category name (sdet/professional1/etc)
+ * @param {string} profile - Profile name (sample_repo_1/SKILL/etc), optional for skill type
+ * @param {Object} option - Options
+ * @param {boolean} option.skip_base - Skip reading base template (only for instruction type)
  * @returns {Object} Object with specific and base content
  */
-function read_template(specified_team, template_name, options = {}) {
-    const template_type = get_template_type(specified_team, template_name);
+function read_template(type, category, profile, option = {}) {
+    let specific_path;
+    let base_path;
 
-    // Read specific template (required)
-    const specific_path = path.join(CLI_ROOT, `template/${template_type}/${template_name}.md`);
+    // Build path based on type
+    if (type === TEMPLATE_TYPE.INSTRUCTION) {
+        // INSTRUCTION type: need profile + base
+        specific_path = path.join(CLI_ROOT, `template/instruction/${category}/${profile}.md`);
+        base_path = path.join(CLI_ROOT, `template/instruction/${category}/00_base.md`);
+    } else if (type === TEMPLATE_TYPE.SKILL) {
+        // SKILL type: only SKILL.md, no base
+        specific_path = path.join(CLI_ROOT, `template/skill/${category}/SKILL.md`);
+        base_path = null;  // No base for skill
+    } else {
+        throw new Error(`Invalid type: ${type}. Must be ${TEMPLATE_TYPE.INSTRUCTION} or ${TEMPLATE_TYPE.SKILL}`);
+    }
+
+    // Read specific file (required)
     if (!fs.existsSync(specific_path)) {
         throw new Error(`Template file not found: ${specific_path}`);
     }
     const specific = fs.readFileSync(specific_path, 'utf-8');
 
-    // Read base template (skip if --skip-base is specified)
+    // Read base file (only for INSTRUCTION type, can be skipped with --skip-base option)
     let base = '';
-    if (!options.skip_base) {
-        const base_path = path.join(CLI_ROOT, `template/${template_type}/00_base.md`);
+    if (type === 'instruction' && !option.skip_base && base_path) {
         if (fs.existsSync(base_path)) {
             base = fs.readFileSync(base_path, 'utf-8');
         }
     }
 
-
     return {
         specific: specific,
         base: base,
-        type: template_type
+        type: type,
+        category: category
     };
+
 }
 
 export {
-      scan_template,
-      get_template_type,
-      read_template
-  };
+    scan_template,
+    read_template
+};
