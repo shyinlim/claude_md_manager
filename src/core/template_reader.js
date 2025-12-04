@@ -53,7 +53,7 @@ function scan_template() {
  * @return [...TEMPLATE.SDET, ...TEMPLATE.TEAM1, ...TEMPLATE.TEAM2]
  */
 export function get_all_template_name() {
-    const scanned = scan_templates();
+    const scanned = scan_template();
     return [...new Set(Object.values(scanned).flat())];
 }
 
@@ -65,7 +65,7 @@ export function get_all_template_name() {
  * @returns {string} Template type (e.g., 'SDET', 'TEAM1', 'TEAM2')
  */
 function get_template_type(specified_team, template_name) {
-    const TEMPLATE = scan_templates();
+    const TEMPLATE = scan_template()
 
     // If team is specified, use it directly
     if (specified_team) {
@@ -76,7 +76,7 @@ function get_template_type(specified_team, template_name) {
     }
 
     // Otherwise, search for the template
-    const found_team = []
+    const found_team = [];
     for (const type in TEMPLATE) {
         if (TEMPLATE[type].includes(template_name)) {
             found_team.push(type);
@@ -132,6 +132,8 @@ function read_template(specified_team, template_name, options = {}) {
 }
 
 export {
-    get_template_type,
-    read_template
-};
+      scan_template,
+      get_all_template_name,
+      get_template_type,
+      read_template
+  };

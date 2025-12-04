@@ -7,12 +7,11 @@ import fs from 'fs';
 import path from 'path';
 import * as logger from '../utility/logger.js';
 import * as config_manager from '../core/config_manager.js';
-import {scan_template} from '../core/template_reader.js';
+import {read_template} from '../core/template_reader.js';
 import {get_all_template_name} from '../core/template_reader.js';
 import {merge_template} from '../core/template_merger.js';
 
 import {
-    COMMAND_TEMPLATE,
     OUTPUT_FILE_PATH,
     SUCCESS_MSG,
     ERROR_MSG
@@ -36,7 +35,7 @@ async function handle_init(option) {
     }
 
     // Get template name from options
-    const team = option.team
+    const team = option.team;
     const template_name = option.template;
     const custom_source = option.source;
 
@@ -49,13 +48,6 @@ async function handle_init(option) {
         }
     }
 
-    // Determine template source
-    let source = custom_source;
-    if (!source) {
-        // Default: use GitLab for internal template
-        source = GITLAB_TEMPLATE_SOURCE;
-    }
-
     // Create config file
     try {
         // Step 1: Create config file '.claude.md.config.json'
@@ -64,11 +56,11 @@ async function handle_init(option) {
             template_name || 'base',
             source
         );
-        logger.success(SUCCESS_MSG.CONFIG_CREATED)
+        logger.success(SUCCESS_MSG.CONFIG_CREATED);
 
         // Step 2: Read template
         logger.info(`Reading templates for: ${config.template}`);
-        const template = read_template(team, config.template, {skip_base: option.skipBase})
+        const template = read_template(team, config.template, {skip_base: option.skipBase});
         logger.info(`Template type: ${template.type}`);
 
         // Step 3: Merge template

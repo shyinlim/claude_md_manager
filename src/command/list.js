@@ -4,23 +4,14 @@
  */
 
 
-import fs from 'fs';
-import path from 'path';
-import {fileURLToPath} from 'url';
-import {dirname} from 'path';
-import * as logger from '../utility/logger.js'
-import {scan_template} from '../util/scan_template.js'
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const CLI_ROOT = path.resolve(__dirname, '../../');
-const TEMPLATE_DIR = path.join(CLI_ROOT, 'template');
+import * as logger from '../utility/logger.js';
+import {scan_template} from '../util/scan_template.js';
 
 
 async function handle_list(option) {
     try {
         // Use scan_templates from template_reader
-        const all_template = scan_templates();
+        const all_template = scan_template();
 
         const team = Object.keys(all_template);
 
