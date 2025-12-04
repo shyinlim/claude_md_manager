@@ -16,7 +16,7 @@ async function handle_list(option) {
         const type_list = Object.keys(all_template);
 
         if (type_list.length === 0) {
-            logger.warn('No template found.');
+            logger.warning('No template found.');
             return;
         }
 

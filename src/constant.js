@@ -20,19 +20,38 @@ export const SUCCESS_MSG = {
     CONFIG_CREATED: 'Configuration file created.'
 };
 
-export const ERROR_MSG = {
-    NO_CONFIG: 'Configuration file not found. Run "claudemd-manager init" first.',
-    NO_TOKEN: 'GitLab token not found. Please set GITLAB_TOKEN environment variable.',
-    DOWNLOAD_FAILED: 'Failed to download template files.',
-    MERGE_FAILED: 'Failed to merge template files.',
-    WRITE_FAILED: 'Failed to write CLAUDE.md file.',
-};
 
 export const COMMAND_GUIDE = {
-    'init_instruction': 'claudemd-manager init --type instruction --category sdet --profile sample_repo_1 --force',
-    'init_skill': 'claudemd-manager init --type skill --category professional1',
-    'update': 'claudemd-manager update',
-}
+      'init': {
+          'description': 'Initialize Claude.md or Skill configuration',
+          'option': {
+              '--type': 'Template type (instruction/skill)',
+              '--category': 'Category name (ex. sdet/professional1)',
+              '--profile': 'Profile name (optional for skill, ex. sample_repo_1)',
+              '--skip-base': 'Skip merging base template',
+              '--force': 'Force overwrite existing config'
+          },
+          'example': {
+              'instruction': 'claudemd-manager init --type instruction --category sdet --profile sample_repo_1',
+              'skill': 'claudemd-manager init --type skill --category professional1',
+          }
+      },
+      'update': {
+          'description': 'Update all configurations based on config file',
+          'option': {
+              '--skip-base': 'Skip merging base template'
+          },
+          'example': {
+              'basic': 'claudemd-manager update'
+          }
+      },
+      'list': {
+          'description': 'List all available templates',
+          'example': {
+              'basic': 'claudemd-manager list'
+          }
+      }
+  }
 
 
 

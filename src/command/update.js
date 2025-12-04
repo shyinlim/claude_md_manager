@@ -14,8 +14,6 @@ import {
     OUTPUT_SKILL_BASE_PATH,
     OUTPUT_SKILL_MD,
     TEMPLATE_TYPE,
-    SUCCESS_MSG,
-    ERROR_MSG
 } from '../constant.js';
 
 

@@ -15,8 +15,7 @@ import {
     OUTPUT_SKILL_BASE_PATH,
     OUTPUT_SKILL_MD,
     TEMPLATE_TYPE,
-    SUCCESS_MSG,
-    ERROR_MSG
+    SUCCESS_MSG
 } from '../constant.js';
 
 
@@ -25,6 +24,20 @@ import {
  * @param {Object} options - Command options from commander
  */
 async function handle_init(option) {
+    // Check require command
+    if (!option.type) {
+        logger.error('Missing required option: --type');
+        process.exit(1);
+    }
+    if (!option.category) {
+        logger.error('Missing required option: --category');
+        process.exit(1);
+    }
+    // instruction type requires profile
+    if (option.type === TEMPLATE_TYPE.INSTRUCTION && !option.profile) {
+        logger.error('Missing required option: --profile');
+        process.exit(1);
+    }
 
     // Get template attribute first
     const type = option.type;
