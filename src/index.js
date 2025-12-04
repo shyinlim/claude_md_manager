@@ -9,9 +9,9 @@ import path from 'path';
 import {fileURLToPath} from 'url';
 import {dirname} from 'path';
 
-// Import command handlers
 import handle_init from './command/init.js';
 import handle_update from './command/update.js';
+import handle_list from './command/list.js';
 
 // Read package.json
 const __filename = fileURLToPath(import.meta.url);
@@ -58,10 +58,7 @@ program
     .command('list')
     .description('List all available templates')
     .option('-a, --all', 'Show both public and internal templates')
-    .action((options) => {
-        // TODO: Implement list command logic
-        console.log('list command called with options:', options);
-    });
+    .action(handle_list);
 
 
 /**

@@ -7,12 +7,55 @@ import fs from 'fs';
 import path from 'path';
 import {fileURLToPath} from 'url';
 import {dirname} from 'path';
-import {TEMPLATE} from '../constant.js';
 
 // Get CLI project root directory (not current working directory)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const CLI_ROOT = path.resolve(__dirname, '../../');
+
+/**
+ * Scan and build template structure dynamically
+ * @returns {Object} { sdet: ['00_base', 'sample_repo_1', ...], team1: [...], ... }
+ */
+function scan_template() {
+    const template_dir = path.join(CLI_ROOT, 'template');
+
+    // Check if template directory exists
+    if (!fs.existsSync(template_dir)) {
+        throw new Error('Template directory not found');
+    }
+
+    const result = {};
+
+    // Scan all team directories
+    const team = fs.readdirSync(template_dir)
+        .filter(item => {
+            const item_path = path.join(template_dir, item);
+            return fs.statSync(item_path).isDirectory();
+        })
+        .sort();
+
+    // Scan templates for each team
+    for (const t of team) {
+        const team_dir = path.join(template_dir, t);
+        const template = fs.readdirSync(team_dir)
+            .filter(file => file.endsWith('.md'))
+            .map(file => file.replace('.md', ''))
+            .sort();
+        result[t] = template;
+    }
+
+    return result;
+}
+
+/**
+ * Get all template_name
+ * @return [...TEMPLATE.SDET, ...TEMPLATE.TEAM1, ...TEMPLATE.TEAM2]
+ */
+export function get_all_template_name() {
+    const scanned = scan_templates();
+    return [...new Set(Object.values(scanned).flat())];
+}
 
 
 /**
@@ -22,6 +65,7 @@ const CLI_ROOT = path.resolve(__dirname, '../../');
  * @returns {string} Template type (e.g., 'SDET', 'TEAM1', 'TEAM2')
  */
 function get_template_type(specified_team, template_name) {
+    const TEMPLATE = scan_templates();
 
     // If team is specified, use it directly
     if (specified_team) {

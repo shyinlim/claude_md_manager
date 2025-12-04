@@ -7,10 +7,11 @@ import fs from 'fs';
 import path from 'path';
 import * as logger from '../utility/logger.js';
 import * as config_manager from '../core/config_manager.js';
-import {read_template} from '../core/template_reader.js';
+import {scan_template} from '../core/template_reader.js';
+import {get_all_template_name} from '../core/template_reader.js';
 import {merge_template} from '../core/template_merger.js';
+
 import {
-    TEMPLATE,
     COMMAND_TEMPLATE,
     OUTPUT_FILE_PATH,
     SUCCESS_MSG,
@@ -41,7 +42,7 @@ async function handle_init(option) {
 
     // Validate template name if provided
     if (template_name) {
-        const all_template = COMMAND_TEMPLATE;
+        const all_template = get_all_template_name();
         if (!all_template.includes(template_name)) {
             logger.error(`Invalid template: ${template_name}`);
             process.exit(1);

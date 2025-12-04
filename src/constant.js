@@ -7,14 +7,6 @@ export const CONFIG_FILE_NAME = '.claude/.claude.md.config.json';
 
 export const OUTPUT_FILE_PATH = '.claude/CLAUDE.md';
 
-export const TEMPLATE = {
-    sdet: ['00_base', 'sample_repo_1', 'sample_repo_2'],
-    team1: ['00_base', 'sample_repo_1'],
-    team2: ['00_base', 'sample_repo_1']
-};
-
-export const COMMAND_TEMPLATE = Object.values(TEMPLATE).flat(); // [...TEMPLATE.SDET, ...TEMPLATE.TEAM1, ...TEMPLATE.TEAM2]
-
 export const SUCCESS_MSG = {
     INIT: 'Initialized successfully! Config file created.',
     UPDATE: 'CLAUDE.md updated successfully!',
