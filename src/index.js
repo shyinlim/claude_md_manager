@@ -62,18 +62,4 @@ program
     .action(handle_list);
 
 
-/**
- *
- * Command: config
- * Show current configuration
- */
-program
-    .command('config')
-    .description('Show current project configuration')
-    .action(() => {
-        // TODO: Implement config command logic
-        console.log('config command called');
-    });
-
-
 export {program};
