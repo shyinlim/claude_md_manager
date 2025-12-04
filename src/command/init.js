@@ -54,7 +54,6 @@ async function handle_init(option) {
         const config = config_manager.create_config(
             team,
             template_name || 'base',
-            source
         );
         logger.success(SUCCESS_MSG.CONFIG_CREATED);
 
