@@ -1,0 +1,6 @@
+# npm registry (default, usually don't need this file)
+# Only needed if publishing to a scoped package
+
+# If your package name is @your-scope/package-name, add:
+# @your-scope:registry=https://registry.npmjs.org/
+# //registry.npmjs.org/:_authToken=${NPM_TOKEN}
