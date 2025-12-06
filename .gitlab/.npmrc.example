@@ -3,7 +3,7 @@
 # Replace the following:
 #   YOUR_GITLAB_DOMAIN  → e.g., gitlab.com or your self-hosted domain
 #   YOUR_PROJECT_ID     → GitLab project ID (number)
-#   YOUR_AUTH_TOKEN     → Personal Access Token or Deploy Token
+#   YOUR_GITLAB_ACCESS_TOKEN     → Personal Access Token or Deploy Token
 
 @YOUR_SCOPE:registry=https://YOUR_GITLAB_DOMAIN/api/v4/projects/YOUR_PROJECT_ID/packages/npm/
-//YOUR_GITLAB_DOMAIN/api/v4/projects/YOUR_PROJECT_ID/packages/npm/:_authToken=YOUR_AUTH_TOKEN
+//YOUR_GITLAB_DOMAIN/api/v4/projects/YOUR_PROJECT_ID/packages/npm/:_authToken=YOUR_GITLAB_ACCESS_TOKEN

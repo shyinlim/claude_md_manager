@@ -32,8 +32,8 @@ export const COMMAND_GUIDE = {
               '--force': 'Force overwrite existing config'
           },
           'example': {
-              'instruction': 'npx @USER_NAME/claude-setting-manager@latest init --type instruction --category sdet --profile sample_repo_1',
-              'skill': 'npx @USER_NAME/claude-setting-manager@latest init --type skill --category professional1',
+              'instruction': 'npx claude-setting-manager@latest init --type instruction --category sdet --profile sample_repo_1',
+              'skill': 'npx claude-setting-manager@latest init --type skill --category professional1',
           }
       },
       'update': {
@@ -42,13 +42,13 @@ export const COMMAND_GUIDE = {
               '--skip-base': 'Skip merging base template'
           },
           'example': {
-              'basic': 'npx @USER_NAME/claude-setting-manager@latest update'
+              'basic': 'npx claude-setting-manager@latest update'
           }
       },
       'list': {
           'description': 'List all available templates',
           'example': {
-              'basic': 'npx @USER_NAME/claude-setting-manager@latest list'
+              'basic': 'npx claude-setting-manager@latest list'
           }
       }
   }
