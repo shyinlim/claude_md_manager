@@ -32,6 +32,7 @@ jobs:
           VERSIONS=$(npm view claude-setting-manager versions --json 2>/dev/null || echo "[]")
           PATCH=$(echo "$VERSIONS" | grep -c "\"${YEAR_MONTH}\." || echo "0")
           VERSION="${YEAR_MONTH}.${PATCH}"
+          export VERSION
 
           # Update package.json version directly
           echo "Publishing version: $VERSION"
