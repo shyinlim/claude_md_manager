@@ -1,8 +1,7 @@
 {
-  "name": "claude-md-manager",
   "version": "0.1.0",
   "type": "module",
-  "description": "Centralized CLAUDE.md management tool for teams",
+  "description": "Centralized CLAUDE management tool for teams",
   "main": "src/index.js",
   "bin": {
     "claudemd-manager": "./bin/cli.js"
@@ -36,7 +35,8 @@
     "src/",
     "template/"
   ],
+  "name": "claude-md-manager",
   "publishConfig": {
-    "access": "public"
+    "USER_NAME:registry": "URL"
   }
 }

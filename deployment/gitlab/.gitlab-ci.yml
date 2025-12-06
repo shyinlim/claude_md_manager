@@ -4,17 +4,29 @@ stages:
 publish:
   stage: publish
   image: node:18
-  only:
-    - master
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /^ci - update package version/'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      when: on_success
+    - if: '$CI_COMMIT_TAG'
+      when: on_success
   script:
     - npm ci
+    - BASE_VERSION="0.1.0"
+    - VERSION="$BASE_VERSION-$(date +%Y%m%d%H%M%S).g$(git rev-parse --short HEAD)"
+    - echo "Generated version $VERSION from base $BASE_VERSION"
+    - |
+      if npm view @USER_NAME/claude-md-manager@$VERSION 2>/dev/null; then
+        echo "Version $VERSION already exists, skipping"
+        exit 0
+      fi
+    - npm version $VERSION --no-git-tag-version
     - git config user.name "gitlab-ci[bot]"
     - git config user.email "gitlab-ci[bot]@gitlab.com"
-    - VERSION="0.0.0-$(date +%Y%m%d).g$(git rev-parse --short HEAD)"
-    - npm version $VERSION --no-git-tag-version
     - git add package.json package-lock.json
-    - git commit -m "chore(release):$VERSION"
-    - git tag "v$VERSION"
+    - git commit -m "ci - update package version to $VERSION"
+    - git push https://oauth2:${CI_PUSH_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git HEAD:master
     - cp deployment/gitlab/.npmrc .npmrc
     - npm publish
-    - git push --follow-tags https://oauth2:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git HEAD:master
+    - echo "Published $VERSION successfully "

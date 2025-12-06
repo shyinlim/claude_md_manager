@@ -43,5 +43,38 @@ claudemd-manager update
 2. Add your markdown files
 3. Run `claudemd-manager list` to verify
 
+### Release
+```shell
+CI_PUSH_TOKEN
+# Gitlab gen GitLab Project → Settings → Access Tokens
+
+# Settings > CI/CD > Variable
+# CI_PUSH_TOKEN
+    - Protect variable: ❌ 不要勾選（這可能導致只對 protected branch 生效）
+    - Mask variable: ✅ 勾選
+    - Expand variable reference: ❌ 不要勾選
+
+BEFORE Request MR
+# Local
+$ npm install --legacy-peer-deps
+
+# Generate package-lock.json
+
+# Commit to branch
+
+# Request MR
 
 
+USER SIDE, AFTER RELEASED
+create ~/.npmrc
+```
+# GitLab Registry for @shyin.lim.p scope
+```shell
+@USER_NAME:registry=https://gitlab.com/api/v4/projects/PROJECTID/packages/npm/
+//gitlab.com/api/v4/projects/PROJECTID/packages/npm/:_authToken=YOUR_GITLAB_TOKEN_HERE
+```
+
+# command
+$ npx @USER_NAME/claude-md-manager@latest list
+npx @USER_NAME/claude-md-manager@latest init --type instruction --category sdet --profile sample_repo_1
+```
