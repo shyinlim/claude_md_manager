@@ -1,0 +1,45 @@
+name: Publish to npm
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    if: ${{ !startsWith(github.event.head_commit.message, 'ci - update package version') }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: npm ci
+
+      - name: Publish with CalVer
+        run: |
+          # Generate CalVer version
+          YEAR=$(date +%Y)
+          MONTH=$(date +%-m)
+          YEAR_MONTH="${YEAR}.${MONTH}"
+          VERSIONS=$(npm view claude-setting-manager versions --json 2>/dev/null || echo "[]")
+          PATCH=$(echo "$VERSIONS" | grep -c "\"${YEAR_MONTH}\." || echo "0")
+          VERSION="${YEAR_MONTH}.${PATCH}"
+
+          # Update package.json and publish
+          echo "Publishing version: $VERSION"
+          npm version $VERSION --no-git-tag-version
+          npm publish --access public
+
+          # Commit version back to repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          git commit -m "ci - update package version to $VERSION"
+          git push origin master
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
