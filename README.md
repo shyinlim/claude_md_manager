@@ -74,7 +74,7 @@ create ~/.npmrc
 //gitlab.com/api/v4/projects/PROJECTID/packages/npm/:_authToken=YOUR_GITLAB_TOKEN_HERE
 ```
 
-# command
-$ npx @USER_NAME/claude-md-manager@latest list
-npx @USER_NAME/claude-md-manager@latest init --type instruction --category sdet --profile sample_repo_1
+# command`````
+$ npx @USER_NAME/claude-setting-manager@latest list
+npx @USER_NAME/claude-setting-manager@latest init --type instruction --category sdet --profile sample_repo_1
 ```
