@@ -1,9 +1,10 @@
 # GitLab NPM Registry Configuration
+# Copy this file to .gitlab/.npmrc and replace the placeholders
 
-# Replace the following:
-#   YOUR_GITLAB_DOMAIN  → e.g., gitlab.com or your self-hosted domain
-#   YOUR_PROJECT_ID     → GitLab project ID (number)
-#   YOUR_GITLAB_ACCESS_TOKEN     → Personal Access Token or Deploy Token
+# For CI (uses CI_JOB_TOKEN automatically):
+@YOUR_SCOPE:registry=https://gitlab.com/api/v4/projects/PROJECT_ID/packages/npm/
+//gitlab.com/api/v4/projects/PROJECT_ID/packages/npm/:_authToken=${CI_JOB_TOKEN}
 
-@YOUR_SCOPE:registry=https://YOUR_GITLAB_DOMAIN/api/v4/projects/YOUR_PROJECT_ID/packages/npm/
-//YOUR_GITLAB_DOMAIN/api/v4/projects/YOUR_PROJECT_ID/packages/npm/:_authToken=YOUR_GITLAB_ACCESS_TOKEN
+# For local user (~/.npmrc), use YOUR_GITLAB_ACCESS_TOKEN instead of CI_JOB_TOKEN:
+@YOUR_SCOPE:registry=https://gitlab.com/api/v4/projects/PROJECT_ID/packages/npm/
+//gitlab.com/api/v4/projects/PROJECT_ID/packages/npm/:_authToken=YOUR_GITLAB_ACCESS_TOKEN
