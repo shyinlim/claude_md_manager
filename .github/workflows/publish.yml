@@ -30,10 +30,11 @@ jobs:
           MONTH=$(date +%-m)
           YEAR_MONTH="${YEAR}.${MONTH}"
           VERSIONS=$(npm view claude-setting-manager versions --json 2>/dev/null || echo "[]")
-          PATCH=$(echo "$VERSIONS" | grep -c "\"${YEAR_MONTH}\." || echo "0")
+          PATCH=$(echo "$VERSIONS" | grep -c "\"${YEAR_MONTH}\." || true)
+          PATCH=${PATCH:-0}
           VERSION="${YEAR_MONTH}.${PATCH}"
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Publishing version: $VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Update package.json version
         run: npm version ${{ steps.version.outputs.version }} --no-git-tag-version --allow-same-version
