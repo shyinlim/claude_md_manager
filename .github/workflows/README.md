@@ -8,6 +8,18 @@ Uses **CalVer**: `YYYY.M.patch` (e.g., `2025.12.0`, `2025.12.1`)
 
 1. Register an account at [npmjs.com](https://www.npmjs.com/signup)
 
+## package.json Setup
+
+```json
+{
+  "name": "your-package-name",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  }
+}
+```
+
 ## CI Setup
 
 1. Create npm token:

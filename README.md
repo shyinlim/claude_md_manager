@@ -4,6 +4,8 @@
 
 Centralized CLAUDE.md management tool for teams. Manage and distribute Claude Code configuration templates across multiple projects.
 
+![ezgif-result.gif](readme%2Fezgif-result.gif)
+
 ## Features
 
 - **Template Management**: Centralized templates for CLAUDE.md and SKILL.md files

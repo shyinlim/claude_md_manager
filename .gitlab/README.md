@@ -4,6 +4,17 @@
 
 Uses **CalVer**: `YYYY.M.patch` (e.g., `2025.12.0`, `2025.12.1`)
 
+## package.json Setup
+
+```json
+{
+  "name": "@YOUR_SCOPE/your-package-name",
+  "publishConfig": {
+    "registry": "https://gitlab.com/api/v4/projects/PROJECT_ID/packages/npm/"
+  }
+}
+```
+
 ## CI Setup
 
 1. Create GitLab token: Project > Settings > Access Tokens (with `api` scope)
