@@ -7,13 +7,13 @@
 cd claude_md_manager
 
 # Install dependencies
-npm install
+pnpm install
 
 # Link for local development when clompleted coding
 pnpm link --global
 
 # Now you can use the CLI
-claudemd-manager --help
+claude-setting-manager --help
 
 # If changed code
 pnpm unlink --global
@@ -27,8 +27,8 @@ mkdir test-project
 cd test-project
 
 # Initialize config
-claude-setting-manager init --type instruction --category sdet --profile sample_repo_1
-claude-setting-manager init --type skill --category professional1
+claudemd-manager init --type instruction --category sdet --profile sample_repo_1
+claudemd-manager init --type skill --category professional1
 
 # Verify config file
 cat .claude/.claude.md.config.json
@@ -41,38 +41,41 @@ claudemd-manager update
 
 1. Create a new directory under `template/instruction/` or `template/skill/`
 2. Add your markdown files
-3. Run `claude-setting-manager list` to verify
+3. Run `claudemd-manager list` to verify
 
+### Release
+```shell
+CI_PUSH_TOKEN
+# Gitlab gen GitLab Project → Settings → Access Tokens
 
-### GitHub (Public npm)
-
-**CI Setup:**
-1. Create npm token: npmjs.com → Access Tokens → Generate New Token (Automation)
-2. Add to GitHub: Repository → Settings → Secrets → Actions → `NPM_TOKEN`
-
-**Usage:**
-```bash
-npm install claude-setting-manager
-# or
-npx claude-setting-manager@latest list
-```
-
-### GitLab (Private npm)
-
-**CI Setup:**
-1. Create GitLab token: Project → Settings → Access Tokens (with `api` scope)
-2. Add CI variable: Settings → CI/CD → Variables → `CI_PUSH_TOKEN`
+# Settings > CI/CD > Variable
+# CI_PUSH_TOKEN
    - Protect variable: ❌
    - Mask variable: ✅
    - Expand variable reference: ❌
 
-**User Setup (create `~/.npmrc`):**
+BEFORE Request MR
+# Local
+$ pnpm install
+
+# Generate package-lock.json
+
+# Commit to branch
+
+# Request MR
+
+
+USER SIDE, AFTER RELEASED
+create ~/.npmrc
 ```
-@USER_NAME:registry=https://gitlab.com/api/v4/projects/PROJECTID/packages/npm/
-//gitlab.com/api/v4/projects/PROJECTID/packages/npm/:_authToken=YOUR_GITLAB_TOKEN_HERE
+# GitLab Registry for @shyin.lim.p scope
+```shell
+@shyin.lim.p:registry=https://gitlab.jkopay.app/api/v4/projects/1008/packages/npm/
+//gitlab.jkopay.app/api/v4/projects/1008/packages/npm/:_authToken=YOUR_GITLAB_TOKEN_HERE
 ```
 
 **Usage:**
+
 ```bash
 npx @USER_NAME/claude-setting-manager@latest list
 npx @USER_NAME/claude-setting-manager@latest init --type instruction --category sdet --profile sample_repo_1
