@@ -70,8 +70,8 @@ create ~/.npmrc
 ```
 # GitLab Registry for @shyin.lim.p scope
 ```shell
-@shyin.lim.p:registry=https://gitlab.jkopay.app/api/v4/projects/1008/packages/npm/
-//gitlab.jkopay.app/api/v4/projects/1008/packages/npm/:_authToken=YOUR_GITLAB_TOKEN_HERE
+@USER_NAME:registry=https://gitlab.app/api/v4/projects/1008/packages/npm/
+//gitlab.app/api/v4/projects/1008/packages/npm/:_authToken=YOUR_GITLAB_TOKEN_HERE
 ```
 
 **Usage:**
