@@ -13,12 +13,15 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - uses: pnpm/action-setup@v4
+
       - uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
+          cache: 'pnpm'
           registry-url: 'https://registry.npmjs.org'
 
-      - run: npm ci
+      - run: pnpm install --frozen-lockfile
 
       - name: Publish with CalVer
         run: |
@@ -30,15 +33,17 @@ jobs:
           PATCH=$(echo "$VERSIONS" | grep -c "\"${YEAR_MONTH}\." || echo "0")
           VERSION="${YEAR_MONTH}.${PATCH}"
 
-          # Update package.json and publish
+          # Update package.json version directly
           echo "Publishing version: $VERSION"
-          npm version $VERSION --no-git-tag-version
-          npm publish --access public
+          sed -i "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" package.json
+
+          # Publish
+          pnpm publish --access public --no-git-checks
 
           # Commit version back to repo
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add package.json package-lock.json
+          git add package.json pnpm-lock.yaml
           git commit -m "ci - update package version to $VERSION"
           git push origin master
         env:
