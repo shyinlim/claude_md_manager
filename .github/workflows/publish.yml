@@ -35,7 +35,7 @@ jobs:
 
           # Update package.json version directly
           echo "Publishing version: $VERSION"
-          sed -i "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" package.json
+          node -e "const fs = require('fs'); const pkg = JSON.parse(fs.readFileSync('package.json')); pkg.version = '$VERSION'; fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');"
 
           # Publish
           pnpm publish --access public --no-git-checks
