@@ -154,7 +154,7 @@ After running `init`, a config file is created at `.claude/.claude.md.config.jso
 
 | Platform | Registry | Documentation |
 |----------|----------|---------------|
-| GitHub Actions | npmjs.com (public) | [.github/README.md](.github/README.md) |
+| GitHub Actions | npmjs.com (public) | [.github/README.md](.github/workflows/README.md) |
 | GitLab CI | GitLab npm registry (private) | [.gitlab/README.md](.gitlab/README.md) |
 
 Both use **CalVer** versioning: `YYYY.M.patch` (e.g., `2025.12.0`)

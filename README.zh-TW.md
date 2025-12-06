@@ -152,7 +152,7 @@ claude_setting_manager/
 
 | 平台 | Registry | 文件 |
 |------|----------|------|
-| GitHub Actions | npmjs.com (公開) | [.github/README.md](.github/README.md) |
+| GitHub Actions | npmjs.com (公開) | [.github/workflows/README.md](.github/workflows/README.md) |
 | GitLab CI | GitLab npm registry (私有) | [.gitlab/README.md](.gitlab/README.md) |
 
 兩者都使用 **CalVer** 版本格式：`YYYY.M.patch`（例如 `2025.12.0`）
